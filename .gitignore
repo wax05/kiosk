@@ -1,4 +1,8 @@
 *.json
-__pycache__
+test2.py
 test.py
+t.py
+__pycache_
 *.pyc
+.vscode
+
