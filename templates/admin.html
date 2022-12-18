@@ -9,13 +9,24 @@
 </head>
 <body>
     <input type="button" id="1" onclick="Cli2Serve()"></input>
+    <div>
+        OutPutHere
+        <div id="output">
+            This
+        </div>
+    </div>
     <script>
+        const CliKey = "18e14ef4916f9b4f0f63";
         function Cli2Serve() {
             axios.post('/admin',{
-                "Key" : "18e14ef4916f9b4f0f63"
+                "Key" : CliKey 
             })
             .then((response)=>{
-                console.log(response)
+                console.log(response["data"]["ProductData"])
+                response["data"]["ProductData"].forEach(element => {
+                    console.log(element)
+                    document.getElementById("output").innerHTML = element["code"];
+                });
             })
             .catch((response)=>{
                 console.log(response)
