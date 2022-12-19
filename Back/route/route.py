@@ -3,13 +3,14 @@ from module.DB import conn,DB
 from module.Log import Logging
 
 SQL_settings = conn.CursInit("./config/sql.json")
-print(SQL_settings)
 
 UserRoute = Blueprint("UserRoute", __name__)
 
 @UserRoute.route('/')
 def Main():
-    return render_template("Main.html")
+    return render_template("MainPage.html")
+
+@UserRoute.route('/login')
 
 @UserRoute.route("/check",methods=["GET", "POST"])
 def Check():
