@@ -1,5 +1,19 @@
 import time
-def INIT(InPath:str):
+import sys
+
+def Check(TypeInput: str)->str:
+    if TypeInput == "ERROR":
+        return "Err/error.log"
+    elif TypeInput == "CommonLog":
+        return "log/log.log"
+    elif TypeInput == "FlaskLog":
+        return "log/Flask.log"
+    elif TypeInput == "LoginLog":
+        return "log/Login.log"
+    else:
+        sys.exit("Unknown log type")
+
+def INIT(InPath:str = "./Log/"):
     try:
         global Path
         Path = InPath
@@ -7,25 +21,19 @@ def INIT(InPath:str):
     except:
         return False
 
-def Logging(log: str,Type:str,Path:str):
+def ErrorLog(Err):
     current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
-    with open(f"{Path}", "a") as f:
-        f.write(f"[{current_time}] : {Type} | {log}\n")
+    with open(f"{Path}Err/error.log", "a") as f:
+        f.write(f"[{current_time}] : ERROR | {Err}\n")
+        f.close
 
-def flask_log(log: str,Type:str,Path:str):
-    """
-    `Path` flask.log Path input | EX) `./log/log/flask.log`\n
-    Log EX) `[Y.M.D/H:M:S]` : Flask | `IP` | `HTTP method` | `URL` | `Other`
-    """
-    current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
-    with open(f"{Path}", "a") as f:
-        f.write(f"[{current_time}] : {Type} | {log}\n")
+def Log(log: str,Type:str)->None:
+    try:
+        current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
+        InputType = Check(Type)
+        with open(f"{Path+InputType}", "a") as f:
+            f.write(f"[{current_time}] : {Type} | {log}\n")
+            f.close()
+    except Exception:
+        sys.exit(str(Exception))
 
-def login_log(IP: str,ID:str,Other:str,Path:str):
-    """
-    `Path` flask.log Path input | EX) `./log/log/flask.log`\n
-    Log EX) `[Y.M.D/H:M:S]` : LOGIN | `IP` | `ID` | `Other`
-    """
-    current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
-    with open(f"{Path}", "a") as f:
-        f.write(f"[{current_time}] : LOGIN | {IP} | {ID} | {Other}\n")

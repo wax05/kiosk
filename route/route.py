@@ -1,4 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, session, url_for, jsonify
+from module.DB import conn,DB
+from module.Log import Logging
+
+SQL_settings = conn.CursInit("./config/sql.json")
+print(SQL_settings)
 
 UserRoute = Blueprint("UserRoute", __name__)
 
@@ -15,6 +20,6 @@ def Check():
             return redirect("/")
     else:#POST
         if session["ID"] == "ADMIN":
-            pass
+            return None            
         else:
             return jsonify(error = "not authorized")
