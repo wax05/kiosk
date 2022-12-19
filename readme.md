@@ -1,21 +1,18 @@
-# info
-백엔드입니다. 프론트엔드 구현 1도 안되어있습니다
----
-# require
+#require
 - flask 2.2.2
 - flask-cors 3.0.10
 - Pymysql 1.0.2
 - MariaDB 10.8.3(Use Mysql or MariaDB)
 ---
-# config
+#config
 로그찍히는곳
-### flask.json
+###flask.json
 ```
 {
     "Key":Your Flask Secret Key
 }
 ```
-### sql.json
+###sql.json
 ```
 {
     "host": Your Server Host,
