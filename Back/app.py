@@ -2,7 +2,7 @@ import json
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO
-from route.route import UserRoute
+from Back.route.route import UserRoute
 
 with open("./config/flask.json") as f:
     global Key
