@@ -28,6 +28,12 @@ def ErrorLog(Err):
         f.close
 
 def Log(log: str,Type:str)->None:
+    """
+    - `ErrorLog` : `ERROR`
+    - `CommonLog` : `CommonLog`
+    - `FlaskLog` : `FlaskLog`
+    - `LoginLog` : `LoginLog`
+    """
     try:
         current_time = time.strftime("%Y.%m.%d/%H:%M:%S", time.localtime(time.time()))
         InputType = Check(Type)

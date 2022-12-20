@@ -2,7 +2,8 @@ import json
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO
-from Back.route.route import UserRoute
+from datetime import timedelta
+from route.route import UserRoute
 
 with open("./config/flask.json") as f:
     global Key
@@ -12,7 +13,8 @@ with open("./config/flask.json") as f:
 app = Flask(__name__)
 socketio = SocketIO(logger=True,engineio_logger=True)
 
-app.config['SECRET_KEY'] = Key["KEY"]
+app.config["SECRET_KEY"] = Key["KEY"]
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=5)
 
 socketio = SocketIO(app)
 
