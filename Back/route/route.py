@@ -18,16 +18,15 @@ def Login():
         return render_template("Login.html")
     else:
         input_data = request.get_json()
-        print(input_data)
         uid = input_data["ID"]
         if BlockWord.BlockWord(uid) != True:
-            return jsonify({"status":False,"error":"BlockWord"})
+            return jsonify(status=False, error="BlockWord")
         upwh = hash.pw2hash(input_data["PW"])
-        if DB.SELECT_ONE(f"SELECT * FROM kiosk.admin_data WHERE user_id={uid} AND pw_hash = {upwh}") != None:
+        if DB.SELECT_ONE(f"SELECT * FROM kiosk.admin_data WHERE user_id='{uid}' AND pw_hash = '{upwh}'") != None:
             session["ID"] = "ADMIN"
             Logging.Log(f"id:{uid}|ip:{request.remote_addr}","LoginLog")
-            return jsonify({"status":True})
-        return jsonify({"status":False,"error":"ID or PW not Match"})
+            return jsonify(status = True)
+        return jsonify(status=False, error="ID or PW not Match")
 
 @UserRoute.route("/logout",methods=["GET"])
 def Logout():
@@ -36,19 +35,6 @@ def Logout():
         return redirect("/")
     else:
         return redirect("/")
-
-@UserRoute.route("/check",methods=["GET", "POST"])
-def Check():
-    if request.method == "GET":#GET
-        if "ID" in session:
-            return render_template("Check.html")
-        else:
-            return redirect("/")
-    else:#POST
-        if "ID" in session:
-            return None
-        else:
-            return jsonify(error = "not authorized")
 
 @UserRoute.route("/admin",methods=["GET", "POST"])
 def AdminPanel():
