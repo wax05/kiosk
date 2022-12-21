@@ -36,6 +36,24 @@ def Logout():
     else:
         return redirect("/")
 
+@UserRoute.route("/get",methods=["GET", "POST"])
+def ProductGet():
+    if request.method == "GET":
+        return render_template("get.html")
+    else:
+        indata = request.get_json()
+        DB_RES = DB.SELECT_ONE(f"SELECT * FROM kiosk.get_code WHERE Code = '{indata['GET_Code']}'")
+        if DB_RES != None:
+            if DB_RES["used"] == 0:    
+                DB_UP = DB.UPDATE(f"UPDATE kiosk.get_code SET used = 1 WHERE Code = '{indata['GET_Code']}'")
+                DB_INS = DB.INSERT(f"INSERT INTO kiosk.take(Code,Take,Time) VALUES ('{indata['GET_Code']}','{indata['Name']}',NOW())")
+                if DB_INS and DB_UP:
+                    return jsonify(status = True)
+                return jsonify(status = False, error = "SQL Error")
+            else:
+                return jsonify(status = False, error="UsedCode")
+        return jsonify(status = False, error = "No Code")
+                
 @UserRoute.route("/admin",methods=["GET", "POST"])
 def AdminPanel():
     if request.method == "GET":
