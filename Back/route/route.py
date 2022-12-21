@@ -46,12 +46,11 @@ def AdminPanel():
     else:
         if "ID" in session:
             indata = request.get_json()
-            print(indata)
             if indata["Type"] == "GET_UserCheck":#GET USER CHECK
-                DB_Data = DB.SELECT_ALL("SELECT * FROM kiosk.get_code")
+                DB_Data = DB.SELECT_ALL("SELECT * FROM kiosk.take")
                 Return_Data = []
                 for i in DB_Data:
-                    Return_Data.append({"Code":i["Code"],"Take":i["Take"],"TakeTime":i["Take_T"]})
+                    Return_Data.append({"Code":i["Code"],"Take":i["Take"],"TakeTime":i["Time"]})
                 return jsonify(data = Return_Data)
             elif indata["Type"] == "GET_CodeCheck":#CODE Check
                 DB_Data = DB.SELECT_ALL("SELECT * FROM kiosk.get_code")
@@ -70,7 +69,7 @@ def AdminPanel():
                 else:
                     return jsonify(status = False, error="No Code")
             elif indata["Type"] == "GET_CodeAdd":#ADD CODE
-                res = DB.INSERT(f"INSERT INTO get_code (Code,ProductCode) VALUES ({indata['INPUT_CODE']},{indata['PRODUCT_CODE']})")
+                res = DB.INSERT(f"INSERT INTO kiosk.get_code (Code,ProductCode) VALUES ('{indata['INPUT_Code']}','{indata['PRODUCT_Code']}')")
                 if res:
                     return jsonify(status = True)
                 else:
