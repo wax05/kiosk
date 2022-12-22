@@ -87,7 +87,7 @@ def AdminPanel():
                 else:
                     return jsonify(status = False, error="No Code")
             elif indata["Type"] == "GET_CodeAdd":#ADD CODE
-                res = DB.INSERT(f"INSERT INTO kiosk.get_code (Code,ProductCode) VALUES ('{indata['INPUT_Code']}','{indata['PRODUCT_Code']}')")
+                res = DB.INSERT(f"INSERT INTO kiosk.get_code (Code,ProductCode,used) VALUES ('{indata['INPUT_Code']}','{indata['PRODUCT_Code']}',0)")
                 if res:
                     return jsonify(status = True)
                 else:
@@ -96,3 +96,7 @@ def AdminPanel():
                 return jsonify(status=False, error="Form Not Match")
         else:
             return jsonify(status=False)
+
+@UserRoute.route("/exam")
+def Exam():
+    return render_template("moonjae.html")
