@@ -36,24 +36,51 @@ def Logout():
     else:
         return redirect("/")
 
+@UserRoute.route("/get/code",methods=["GET", "POST"])
+def CodeGet():
+    if request.method == "GET":
+        return render_template("give.html")
+    else:
+        DB_RES = DB.SELECT_ONE(f"SELECT * FROM kiosk.get_code WHERE get = 0 AND used != 1")
+        DB_COM = DB.UPDATE(f"UPDATE kiosk.get_code SET get = 1 WHERE Code = '{DB_RES['Code']}'")
+        if DB_COM != True:
+            return jsonify(status=False, error="SQL Error")
+        return jsonify(status=True, Code = DB_RES['Code'])
+
 @UserRoute.route("/get",methods=["GET", "POST"])
 def ProductGet():
     if request.method == "GET":
+        if "GET_Name" in session:
+            session.pop("GET_Name", None)
         return render_template("get.html")
     else:
         indata = request.get_json()
-        DB_RES = DB.SELECT_ONE(f"SELECT * FROM kiosk.get_code WHERE Code = '{indata['GET_Code']}'")
+        if (BlockWord.BlockWord(indata["Code"]) != True):
+            return jsonify(status = False, error="Block Ward Error")
+        DB_RES = DB.SELECT_ONE(f"SELECT * FROM kiosk.get_code WHERE Code = '{indata['Code']}'")
         if DB_RES != None:
             if DB_RES["used"] == 0:    
-                DB_UP = DB.UPDATE(f"UPDATE kiosk.get_code SET used = 1 WHERE Code = '{indata['GET_Code']}'")
-                DB_INS = DB.INSERT(f"INSERT INTO kiosk.take(Code,Take,Time) VALUES ('{indata['GET_Code']}','{indata['Name']}',NOW())")
+                DB_UP = DB.UPDATE(f"UPDATE kiosk.get_code SET used = 1 WHERE Code = '{indata['Code']}'")
+                DB_INS = DB.INSERT(f"INSERT INTO kiosk.take(Code,Take,Time) VALUES ('{indata['Code']}','{indata['Name']}',NOW())")
                 if DB_INS and DB_UP:
+                    session["GET_Name"] = indata["Name"]
                     return jsonify(status = True)
                 return jsonify(status = False, error = "SQL Error")
             else:
                 return jsonify(status = False, error="UsedCode")
         return jsonify(status = False, error = "No Code")
+
+@UserRoute.route("/exam")
+def Exam():
+    return render_template("moonjae.html")
                 
+@UserRoute.route("/get/check",methods=["GET"])
+def Check():
+    if "GET_Name" in session:
+        return render_template("Check.html")
+    else:
+        return redirect("/")
+
 @UserRoute.route("/admin",methods=["GET", "POST"])
 def AdminPanel():
     if request.method == "GET":
@@ -87,7 +114,7 @@ def AdminPanel():
                 else:
                     return jsonify(status = False, error="No Code")
             elif indata["Type"] == "GET_CodeAdd":#ADD CODE
-                res = DB.INSERT(f"INSERT INTO kiosk.get_code (Code,ProductCode,used) VALUES ('{indata['INPUT_Code']}','{indata['PRODUCT_Code']}',0)")
+                res = DB.INSERT(f"INSERT INTO kiosk.get_code (Code,ProductCode,used,get) VALUES ('{indata['INPUT_Code']}','{indata['PRODUCT_Code']}',0,0)")
                 if res:
                     return jsonify(status = True)
                 else:
@@ -96,7 +123,3 @@ def AdminPanel():
                 return jsonify(status=False, error="Form Not Match")
         else:
             return jsonify(status=False)
-
-@UserRoute.route("/exam")
-def Exam():
-    return render_template("moonjae.html")
