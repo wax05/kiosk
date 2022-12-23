@@ -99,37 +99,35 @@ const dab = document.querySelector('.dab');
 const make_btn = document.querySelector('#make');
 const check_btn = document.querySelector('#check');
 
-const input_contaienr = document.querySelector('.input-contaienr')
-const add_input_contaiener = document.querySelector('#add-input-contaiener')
+const input_contaienr = document.querySelector('.input-contaienr');
+const add_input_contaiener = document.querySelector('#add-input-contaiener');
 
-const html1 = `<div class="OX"><div class="O">O</div><div class="X">X</div></div>`
-const html2 = `<input class="input">`
+const html1 = `<div class="OX"><div class="O">O</div><div class="X">X</div></div>`;
+const html2 = `<input class="input">`;
 
-check_btn.style.display = 'none'
+check_btn.style.display = 'none';
 
 make_btn.addEventListener('click', () => {
-    make_btn.style.display = 'none'
-    const mon = monja[Math.floor(Math.random() * monja.length)]
-    console.log(mon)
-    nowmonja.type = mon.type
-    nowmonja.title = mon.title
-    nowmonja.dab = mon.dab
+    make_btn.style.display = 'none';
+    const mon = monja[Math.floor(Math.random() * monja.length)];
+    nowmonja.type = mon.type;
+    nowmonja.title = mon.title;
+    nowmonja.dab = mon.dab;
 
     if(nowmonja.type === 's'){
-        add_input_contaiener.innerHTML = html2
-        check_btn.style.display = 'block'
+        add_input_contaiener.innerHTML = html2;
+        check_btn.style.display = 'block';
     }else if(nowmonja.type === 'OX'){
-        add_input_contaiener.innerHTML = html1
-        const O = document.querySelector('.O')
-        const X = document.querySelector('.X')
+        add_input_contaiener.innerHTML = html1;
+        const O = document.querySelector('.O');
+        const X = document.querySelector('.X');
 
         O.addEventListener('click', () => {
     if(nowmonja.dab === 'O'){
         alert('정답입니다!');
-        d()
+        Correct();
     } else {
         if (LeftAttempt > 1) {
-            console.log(LeftAttempt)
             alert(`정답이 아닙니다.${LeftAttempt}번의 기회가 남았습니다`);
             LeftAttempt --;
         } else {
@@ -138,12 +136,12 @@ make_btn.addEventListener('click', () => {
             LeftAttempt = 3;
         }
     }
-})
+});
 
 X.addEventListener('click', (e) => {
     if(nowmonja.dab === 'X'){
         alert('정답입니다!');
-        d();
+        Correct();
     } else{
         if (LeftAttempt > 1) {
             LeftAttempt --;
@@ -154,11 +152,11 @@ X.addEventListener('click', (e) => {
             LeftAttempt = 3;
         }
     }
-})
+});
     }
 
-    title.innerHTML = mon.title
-})
+    title.innerHTML = mon.title;
+});
 
 check_btn.addEventListener('click', () => {
     
@@ -181,11 +179,8 @@ function check_btn_f() {
             }
         });
         if(TF_Check !== null) {
-            add_input_contaiener.innerHTML = ''
-            check_btn.style.display = 'none'
-            make_btn.style.display = 'block'
-            title.innerHTML = '이부분에 문제가 표시 됩니다. <br> "문제 만들기" 버튼을 눌러주세요.'
-            alert('정답입니다!')
+            alert('정답입니다!');
+            Correct();
         } else {
             if (LeftAttempt > 1) {
             LeftAttempt --;
@@ -193,18 +188,22 @@ function check_btn_f() {
             } else {
                 alert("정답이 아닙니다");
                 LeftAttempt = 3;
-                add_input_contaiener.innerHTML = ''
-                check_btn.style.display = 'none'
-                make_btn.style.display = 'block'
-                title.innerHTML = '이부분에 문제가 표시 됩니다. <br> "문제 만들기" 버튼을 눌러주세요.'
+                add_input_contaiener.innerHTML = '';
+                check_btn.style.display = 'none';
+                make_btn.style.display = 'block';
+                title.innerHTML = '이부분에 문제가 표시 됩니다. <br> "문제 만들기" 버튼을 눌러주세요.';
             }
         }
     }
 }
 
 function d() {
-    add_input_contaiener.innerHTML = ''
-    check_btn.style.display = 'none'
-    make_btn.style.display = 'block'
-    title.innerHTML = '이부분에 문제가 표시 됩니다. <br> "문제 만들기" 버튼을 눌러주세요.'
+    add_input_contaiener.innerHTML = '';
+    check_btn.style.display = 'none';
+    make_btn.style.display = 'block';
+    title.innerHTML = '이부분에 문제가 표시 됩니다. <br> "문제 만들기" 버튼을 눌러주세요.';
+}
+
+function Correct() {
+    location.href = "/get/code";
 }
