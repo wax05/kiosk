@@ -5,7 +5,7 @@ from flask_socketio import SocketIO
 from datetime import timedelta
 from route.route import UserRoute
 
-with open("./config/flask.json") as f:
+with open("config/flask.json") as f:
     global Key
     Key = json.load(f)
     f.close()
@@ -13,6 +13,7 @@ with open("./config/flask.json") as f:
 app = Flask(__name__)
 socketio = SocketIO(logger=True,engineio_logger=True)
 
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config["SECRET_KEY"] = Key["KEY"]
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=5)
 

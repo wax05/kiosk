@@ -1,0 +1,11 @@
+*.json
+test2.py
+test.py
+t.py
+__pycache__
+*.pyc
+.vscode
+test
+html
+.http
+sqlexcute.py
