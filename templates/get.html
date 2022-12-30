@@ -1,16 +1,25 @@
 {%extends "Base.html"%}
 {%block title%}상품수령{%endblock%}
 {%block content%}
-<div class="container">
-    <div class="title">
-        상품교환
-    </div>
-    <div class="inputbox">
-        <input type="text" id="CodeInput" name="Code" placeholder="코드를 입력하세요">
-        <input type="text" id="UserName" name="UserName" placeholder="이름을 입력하세요">
-        <input type="submit" id="btn" name="확인">
-    </div>
-</div>
-<link rel="stylesheet" href="{{url_for('static',filename='css/get.css')}}">
+<!-- component -->
+<div id="login-form-wrap">
+  <h2>코드입력</h2>
+  <p>
+    <input type="text" id="code" name="user_id" class="user_input"placeholder="코드" required><i class="validation"><span></span><span></span></i>
+  </p>
+  <p>
+    <input type="text" id="get" name="password" class="user_input"placeholder="수령자" required><i class="validation"><span></span><span></span></i>
+  </p>
+  <p id="login_false">
+    
+  </p>
+  <p>
+    <input type="submit" id="btn" value="수령">
+  </p>
+  <div id="create-account-wrap">
+    <span>코드입력해주세요<span>
+    </div><!--create-account-wrap-->
+  </div><!--login-form-wrap-->
+<link rel="stylesheet" href="{{url_for('static',filename='css/login.css')}}">
 <script src="{{url_for('static',filename='js/get.js')}}"></script>
 {%endblock%}

@@ -2,13 +2,13 @@ let GetTrue = false;
 const Btn = document.getElementById("btn");
 
 function ClearUserInput() {
-    let ClearCodeInput = document.getElementById("CodeInput");
+    let ClearCodeInput = document.getElementById("code");
     ClearCodeInput.value = null;
 }
 
 Btn.addEventListener("click", async ()=>{
-    let CodeInput = document.getElementById("CodeInput").value;
-    let UserName = document.getElementById("UserName").value;
+    let CodeInput = document.getElementById("code").value;
+    let UserName = document.getElementById("get").value;
     let ServerResponse = null;
     await axios.post("/get",{"Code":CodeInput,"Name":UserName})
         .then((response) => {
