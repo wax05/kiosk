@@ -123,37 +123,25 @@ make_btn.addEventListener('click', () => {
         const X = document.querySelector('.X');
 
         O.addEventListener('click', () => {
-    if(nowmonja.dab === 'O'){
-        alert('정답입니다!');
-        Correct();
-    } else {
-        if (LeftAttempt > 1) {
-            alert(`정답이 아닙니다.${LeftAttempt}번의 기회가 남았습니다`);
-            LeftAttempt --;
-        } else {
-            alert("정답이 아닙니다");
-            d();
-            LeftAttempt = 3;
-        }
-    }
-});
-
-X.addEventListener('click', (e) => {
-    if(nowmonja.dab === 'X'){
-        alert('정답입니다!');
-        Correct();
-    } else{
-        if (LeftAttempt > 1) {
-            LeftAttempt --;
-            alert(`정답이 아닙니다.${LeftAttempt}번의 기회가 남았습니다`);
-        } else {
-            alert("정답이 아닙니다");
-            d();
-            LeftAttempt = 3;
-        }
-    }
-});
-    }
+            if(nowmonja.dab === 'O'){
+                alert('정답 입니다!');
+                d()
+            } else {
+                alert('정답이 아닙니다.');
+                
+            }
+        })
+    
+        X.addEventListener('click', (e) => {
+            if(nowmonja.dab === 'X'){
+                alert('정답 입니다!')
+                d()
+            } else{
+                alert('정답이 아닙니다.');
+                d()
+            }
+        })
+            }
 
     title.innerHTML = mon.title;
 });
