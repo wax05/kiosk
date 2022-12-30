@@ -65,7 +65,6 @@ def ProductGet():
                 DB_INS = DB.INSERT(f"INSERT INTO kiosk.take(Code,Take,Time) VALUES ('{indata['Code']}','{indata['Name']}',NOW())")
                 if DB_INS and DB_UP:
                     session["GET_Name"] = indata["Name"]
-                    print(DB_RES["ProductCode"])
                     session["Type"] = DB_RES["ProductCode"]
                     return jsonify(status = True)
                 return jsonify(status = False, error = "SQL Error")
@@ -75,6 +74,8 @@ def ProductGet():
 
 @UserRoute.route("/exam")
 def Exam():
+    session.pop("GET_Name", None)
+    session.pop("Type", None)
     return render_template("moonjae.html")
                 
 @UserRoute.route("/get/check",methods=["GET"])
