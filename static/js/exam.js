@@ -126,6 +126,7 @@ make_btn.addEventListener('click', () => {
             if(nowmonja.dab === 'O'){
                 alert('정답 입니다!');
                 d()
+                Correct()
             } else {
                 alert('정답이 아닙니다.');
                 
